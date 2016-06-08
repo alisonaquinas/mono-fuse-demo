@@ -1,0 +1,4 @@
+[submodule "external/mono-fuse"]
+	path = external/mono-fuse
+	url = https://github.com/jneedhamspkt/mono-fuse.git
+	branch = master
