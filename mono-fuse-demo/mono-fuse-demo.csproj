@@ -31,10 +31,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Mono.Fuse">
+      <HintPath>..\external\mono-fuse\lib\mono-fuse\Mono.Fuse.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="BeforeBuild">
+    <Exec Command="PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig/; WD=$PWD; cd ../external/mono-fuse/ &amp;&amp; ./autogen.sh &amp;&amp; make; cd $WD" />
+  </Target>
+  <Target Name="AfterClean">
+    <Exec Command="printenv" />
+    <Exec Command="WD=$PWD; cd ../external/mono-fuse/ &amp;&amp; make clean; cd $WD" />
+  </Target>
+  <ItemGroup>
+    <None Include="..\external\mono-fuse\lib\libMonoFuseHelper.la">
+      <Link>libMonoFuseHelper.la</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\external\mono-fuse\lib\libMonoFuseHelper.so">
+      <Link>libMonoFuseHelper.so</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
